@@ -1,3 +1,7 @@
+:root {
+    --coffee-brown: #361713;
+}
+
 @mixin risingSteam($dist, $duration, $delay) {
     animation: move-and-fade $duration linear infinite;
     animation-delay: $delay;
@@ -23,6 +27,106 @@
     }
 }
 
+/* =========================
+   Pouring layers
+   ========================= */
+
+@keyframes pour-layer {
+    0% {
+        transform: translateY(400%);
+    }
+
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+@mixin syrup-layer($color) {
+    background: repeating-linear-gradient(
+        45deg,
+        white,
+        white 10px,
+        $color 10px,
+        $color 20px
+    );
+}
+
+.base {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    animation: pour-layer 2s forwards;
+    z-index: 300;
+}
+
+.syrup {
+    position: relative;
+    transform: translateY(400%);
+    @include syrup-layer(var(--syrup-color));
+    width: 100%;
+    height: 20%;
+    animation: pour-layer 2s 1s forwards;
+    z-index: 2;
+}
+
+/* =========================
+   Foam bubbles
+   ========================= */
+
+.froth {
+    overflow: visible;
+    position: relative;
+    transform: translateY(400%);
+    height: 30%;
+    width: 100%;
+    animation: pour-layer 2s 2s forwards;
+    z-index: 1;
+}
+
+.foam {
+    display: block;
+    border-radius: 30px;
+    height: 40px;
+    width: 40px;
+    position: absolute;
+}
+
+.foam:nth-child(1) {
+    top: 0px;
+    left: -3px;
+}
+
+.foam:nth-child(2) {
+    top: 0px;
+    left: 55px;
+}
+
+.foam:nth-child(3) {
+    width: 30px;
+    height: 30px;
+    border-radius: 40px;
+    top: 3px;
+    left: 30px;
+}
+
+.foam:nth-child(4) {
+    width: 30px;
+    height: 30px;
+    border-radius: 45px;
+    top: 5px;
+    right: -2px;
+}
+
+.foam:nth-child(5) {
+    top: 2px;
+    right: 10px;
+}
+
+/* =========================
+   Mug / carafe
+   ========================= */
+
 .mug {
     width: 8em;
     height: 6em;
@@ -47,28 +151,17 @@
 
 .carafe {
     overflow: hidden;
-    /*   // position: absolute; */
-    // min-height: 96px;
     border-radius: 0.05em 0.05em 2.2em 2.2em;
     background: #c6c6c6;
     width: 100%;
     height: 100%;
+    min-height: 96px;
     transition: all 1s;
 }
 
-.vanilla {
-    transform: translateY(400%);
-    position: relative;
-    background: repeating-linear-gradient(45deg,
-            white,
-            white 10px,
-            rgba(225, 207, 149, 1) 10px,
-            rgba(225, 207, 149, 1) 20px);
-    width: 100%;
-    height: 20%;
-    animation: pour-tea 2s 1s forwards;
-    z-index: 2;
-}
+/* =========================
+   Steam / condensation animations
+   ========================= */
 
 .stream {
     position: absolute;
@@ -124,15 +217,5 @@
         margin-left: 50px;
         margin-top: -45px;
         @include risingSteam(20px, 2.5s, 3s);
-    }
-}
-
-@keyframes pour-tea {
-    0% {
-        transform: translateY(100%);
-    }
-
-    100% {
-        transform: translateY(0%);
     }
 }

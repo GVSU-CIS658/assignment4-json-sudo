@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import "./style.css";
 import "./styles/mug.scss";
 import { createPinia } from "pinia";
 import piniaPluginPersistedState from "pinia-plugin-persistedstate";
